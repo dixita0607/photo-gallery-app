@@ -46,7 +46,6 @@ const Profile = () => {
   }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!token) return <Loading/>;
-  if (error) showErrorMessage(error.message);
 
   const loadMore = () => fetchMore({
     variables: {offset: data.photosByUser.length},
