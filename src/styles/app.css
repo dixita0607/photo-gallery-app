@@ -1,0 +1,13 @@
+.content {
+  flex-grow: 1;
+  padding: 36px;
+  overflow: scroll;
+}
+
+.app {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+

@@ -1,0 +1,9 @@
+.nav-bar {
+  display: flex;
+}
+
+.app-title {
+  flex-grow: 1;
+  float: left;
+  color: white;
+}

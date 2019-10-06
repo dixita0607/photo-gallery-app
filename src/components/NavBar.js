@@ -1,21 +1,28 @@
 import React from 'react';
 import {useAuth0} from '../react-auth0-wrapper';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
+import {Menu} from 'antd';
+import '../styles/navbar.css';
 
 const NavBar = () => {
-  const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
+  const {isAuthenticated, logout} = useAuth0();
+
+  const menuItems = isAuthenticated
+    && [
+      <Menu.Item key="users"><Link to="/users">Users</Link></Menu.Item>,
+      <Menu.Item key="profile"><Link to="/profile">Profile</Link></Menu.Item>,
+      <Menu.Item key="logout" onClick={() => logout()}>Log out</Menu.Item>
+    ];
 
   return (
-    <div>
-
-      {!isAuthenticated && <button onClick={() => loginWithRedirect()}>Login</button>}
-
-      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-
+    <div className="nav-bar">
+      <div className="app-title">Photo Gallery App</div>
+      <Menu theme="dark" mode="horizontal" style={{lineHeight: '64px'}}>
+        {menuItems}
+      </Menu>
       {isAuthenticated && (
         <span>
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
+
         </span>
       )}
     </div>
