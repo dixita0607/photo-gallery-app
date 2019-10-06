@@ -2,12 +2,15 @@ import React from 'react';
 import {Button, Typography} from 'antd';
 import '../styles/welcome.css';
 import {useAuth0} from '../react-auth0-wrapper';
+import {Redirect} from 'react-router-dom';
 
 const {Title, Text} = Typography;
 
 const Welcome = () => {
 
-  const {loginWithRedirect} = useAuth0();
+  const {loginWithRedirect, isAuthenticated} = useAuth0();
+
+  if (isAuthenticated) return <Redirect to="/profile"/>;
 
   return (
     <div className="welcome">
