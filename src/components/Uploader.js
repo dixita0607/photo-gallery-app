@@ -17,10 +17,14 @@ const UPLOAD_PHOTO = gql`
 
 export default ({onPhotoUploaded}) => {
   const {getTokenSilently} = useAuth0();
-  const [uploadPhoto, {loading: uploadingPhoto, error}] = useMutation(UPLOAD_PHOTO);
+  const [uploadPhoto, {loading: uploadingPhoto}] = useMutation(UPLOAD_PHOTO);
   const [photo, setPhoto] = useState(null);
 
   const beforeUpload = photo => {
+    if (photo.size > (1024 * 1024 * 5)) {
+      showErrorMessage(`Can't upload file having size greater than 5MB.`);
+      return false;
+    }
     setPhoto(photo);
     return false;
   };
@@ -44,7 +48,11 @@ export default ({onPhotoUploaded}) => {
 
   return (
     <>
-      <Upload beforeUpload={beforeUpload} fileList={photo ? [photo] : []}>
+      <Upload accept=".png,.jpeg,.gif,.svg,.jpg"
+              beforeUpload={beforeUpload}
+              fileList={photo ? [photo] : []}
+              onRemove={() => setPhoto(null)}
+      >
         <Button><Icon type={uploadingPhoto ? 'loading' : 'plus'}/> Select Photo</Button>
       </Upload>
       <Button disabled={!photo || uploadingPhoto} loading={uploadingPhoto}

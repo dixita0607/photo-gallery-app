@@ -20,11 +20,3 @@ module.exports.savePhotoToDatabase = async (db, user, {_id, url}) => {
   if (insertedCount === 1) return photo;
   else throw Error('Could not insert photo');
 };
-
-module.exports.ensureUser = async (db, user) => {
-  const users = db.collection('users');
-  const existingUser = await users.findOne({_id: user.sub});
-  if (existingUser) return;
-  const {insertedCount} = await users.insertOne({_id: user.sub});
-  if (insertedCount !== 1) throw Error('Could not insert user');
-};

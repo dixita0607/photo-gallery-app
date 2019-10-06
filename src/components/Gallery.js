@@ -7,7 +7,7 @@ const Gallery = ({photos}) => (
     {
       photos.map(photo =>
         <Card className="image-card" key={photo._id}>
-          <img className="photo" src={photo.url} alt="Photo"/>
+          <img className="photo" src={photo.url} alt="Upload"/>
         </Card>
       )
     }

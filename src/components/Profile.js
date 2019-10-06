@@ -7,7 +7,8 @@ import '../styles/profile.css';
 import {useLazyQuery} from '@apollo/react-hooks';
 import {gql} from 'apollo-boost';
 import Gallery from './Gallery';
-import {showErrorMessage, showSuccessMessage, paginateOver, prepend} from '../utils';
+import {useParams, useLocation} from 'react-router-dom';
+import {showErrorMessage, paginateOver, prepend} from '../utils';
 
 const {Text} = Typography;
 
@@ -24,19 +25,25 @@ const GET_PHOTOS = gql`
 const Profile = () => {
   const {user, getTokenSilently} = useAuth0();
   const [token, setToken] = useState(null);
+  const {userId} = useParams();
+  const location = useLocation();
+  const [currentUser, setCurrentUser] = useState({});
   const [getPhotos, {fetchMore, data, error, updateQuery}] = useLazyQuery(
-    GET_PHOTOS,
-    {
-      variables: {userId: user.sub, offset: 0, limit: 3},
+    GET_PHOTOS, {
+      variables: {userId: userId || user.sub, offset: 0, limit: 10},
       context: {headers: {Authorization: 'Bearer ' + token}}
     }
   );
 
   useEffect(() => {
-    getTokenSilently().then(setToken).then(getPhotos).then(() => {
-      if (data && data.photosByUser.length > 0) showSuccessMessage('Fetched photos successfully.')
-    });
-  }, []);
+    const currentUser = location.state && location.state.currentUser;
+    if (userId) setCurrentUser(currentUser);
+    else setCurrentUser(user);
+    getTokenSilently()
+      .then(setToken)
+      .then(getPhotos)
+      .catch(error => showErrorMessage(error.message));
+  }, [userId]);
 
   if (!token) return <Loading/>;
   if (error) showErrorMessage(error.message);
@@ -52,10 +59,11 @@ const Profile = () => {
     <div className="profile">
       <div className="user">
         <div className="user-details">
-          {(user && user.picture) ? <Avatar src={user.picture}/> : <Avatar icon="user"/>}
-          <Text strong className="user-name">{user && user.name ? user.name : "User"}</Text>
+          {(user && currentUser.picture) ? <Avatar src={currentUser.picture}/> : <Avatar icon="user"/>}
+          <Text strong
+                className="user-name">{currentUser && currentUser.nickname ? currentUser.nickname : "User"}</Text>
         </div>
-        <Uploader onPhotoUploaded={onPhotoUploadedHandler}/>
+        {!userId && <Uploader onPhotoUploaded={onPhotoUploadedHandler}/>}
       </div>
       <div className="user-gallery">
         {
@@ -63,6 +71,7 @@ const Profile = () => {
             ? <Gallery photos={data.photosByUser}/>
             : <Loading/>
         }
+        {data && data.photosByUser.length === 0 && <Text strong>No pictures found.</Text>}
         <Button
           onClick={loadMore}
           type="primary"

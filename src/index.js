@@ -39,6 +39,7 @@ ReactDOM.render(
       audience={config.audience}
       redirect_uri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
+      connection="google-oauth2"
     >
       <App/>
     </Auth0Provider>
