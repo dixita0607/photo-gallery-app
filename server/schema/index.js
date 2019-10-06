@@ -39,7 +39,13 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     photosByUser: async (parent, {userId, offset = 0, limit = 20}, {db}) => {
-      return db.collection('photos').find({userId}, {skip: offset, limit, sort: {uploadedAt: -1}}).toArray();
+      const photos = await db.collection('photos').find({userId}, {
+        skip: offset,
+        limit,
+        sort: {uploadedAt: -1}
+      }).toArray();
+      photos.forEach(photo => photo.url = process.env.BACKEND + photo.url);
+      return photos;
     },
     users: async (parent, {offset = 0, limit = 20}, {db, user: {sub}}) => {
       return db.collection('users').find({_id: {$ne: sub}}, {skip: offset, limit}).toArray();
@@ -51,7 +57,9 @@ const resolvers = {
       const existingUser = await db.collection('users').findOne({_id: user.sub});
       if (!existingUser) throw Error('User does not exist.');
       const savedToDisk = await savePhotoToDisk(photo);
-      return savePhotoToDatabase(db, user, savedToDisk);
+      photo = await savePhotoToDatabase(db, user, savedToDisk);
+      photo.url = process.env.BACKEND + photo.url;
+      return photo;
     },
     ensureUser: async (parent, {userInfo: {email, name, nickname, picture}}, {db, user: {sub}}) => {
       const users = db.collection('users');

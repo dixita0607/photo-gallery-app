@@ -11,7 +11,7 @@ import {createUploadLink} from 'apollo-upload-client';
 import 'antd/dist/antd.css';
 import './index.css';
 
-const graphQLURL = 'http://localhost:4000/graphql';
+const graphQLURL = `${process.env.REACT_APP_BACKEND}/graphql`;
 
 const apolloClient = new ApolloClient({
   uri: graphQLURL,
