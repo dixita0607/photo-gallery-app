@@ -21,8 +21,8 @@ export default ({onPhotoUploaded}) => {
   const [photo, setPhoto] = useState(null);
 
   const beforeUpload = photo => {
-    if (photo.size > (1024 * 1024 * 5)) {
-      showErrorMessage(`Can't upload file having size greater than 5MB.`);
+    if (photo.size > (10 * 1024 * 1024)) {
+      showErrorMessage(`Can't upload file having size greater than 10MB.`);
       return false;
     }
     setPhoto(photo);
