@@ -3,4 +3,10 @@ node_js:
   - node
 script:
   - npm run build
-
+deploy:
+  provider: heroku
+  api_key:
+    secure: ltYr2HbP0stUmkrElt3QDgZZHRqu+Uu+i5VoF2IuQEFICufOa/GGSwbhLuHMC8z7CrTM7429XQPdteJIJxnloMmfIR2Uy3ghG1ZIdvzGk0Qy71VjrtnIPRUr2skdrhSaIhgZ3B5DO5vowE0OftR2Wf1xQgj0+82awx2v17bWeG9sZ0lnBDbHwHN9skDJU/1VOtoBa5IV6w8fotBsSvmc4ulaSL9X9+MnD2pRQRaa/a7HhyFSCSP3IxpFWQy4PM/jTojj+ZIrZClJ0PjlbIeBQ4qbYWCMktXs13Vwhj3u8bvJLFil/j9YVuGqwt1HNK+5u11N7/nqaDDZB7ZAuy0B9TZeWzWNVynwByb66dFMCBUBcNh+4Wcn8yLOzcOjaVO4q2GMbCQxrkWTrU3yQBsf00bWxehct5svEyGlnc1J4JEBW04hNjzi9Klp2aWJyzuiIwiJ3OMNsoQAXKtpc/sQUJoAyTg42ko0RkxKWdzrY4szvHzdHyluZPHfdY37zjrhC1mIn2UyN7hw5o7dsxlOWsQd59rMS0YGODnQXsQ9PvhidiJesTwB9MRq3DmLNIiwRc+QolbKHMY+HBZ+lIgQwRc8Q5sT7Vnt+OQAnGm3MWzPaAAxKtPQ2s9inowjR6vdjdzs6t5aWEeSEreGaXCQva/xZqEuoSTUj/2+Exxbc1U=
+  app: dixita0607-photo-gallery-app
+  on:
+    repo: dixita0607/photo-gallery-app
