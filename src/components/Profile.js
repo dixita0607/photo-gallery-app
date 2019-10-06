@@ -43,7 +43,7 @@ const Profile = () => {
       .then(setToken)
       .then(getPhotos)
       .catch(error => showErrorMessage(error.message));
-  }, [userId]);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!token) return <Loading/>;
   if (error) showErrorMessage(error.message);

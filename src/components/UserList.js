@@ -34,7 +34,7 @@ const UserList = () => {
 
   useEffect(() => {
     getTokenSilently().then(setToken).then(getUsers);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!token) return <Loading/>;
 

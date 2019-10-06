@@ -46,7 +46,7 @@ function App() {
     if (!isAuthenticated) return;
     if (!token) getTokenSilently().then(setToken);
     else ensureUser().catch(error => showErrorMessage(error.message));
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated, token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading || (isAuthenticated && !ensured)) {
     return <Loading/>
