@@ -28,7 +28,7 @@ const Profile = () => {
   const {userId} = useParams();
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState({});
-  const [getPhotos, {fetchMore, data, error, updateQuery}] = useLazyQuery(
+  const [getPhotos, {fetchMore, data, updateQuery}] = useLazyQuery(
     GET_PHOTOS, {
       variables: {userId: userId || user.sub, offset: 0, limit: 10},
       context: {headers: {Authorization: 'Bearer ' + token}}
